@@ -5,7 +5,9 @@
 
 
 #include "Camera/CameraComponent.h"
+#include "GameFramework/GameModeBase.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 APlayerCharacter::APlayerCharacter()
@@ -34,6 +36,7 @@ void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
+	StartLocation = GetActorLocation();
 }
 
 // Called every frame
@@ -73,4 +76,9 @@ void APlayerCharacter::LookUp(float AxisValue)
 void APlayerCharacter::Turn(float AxisValue)
 {
 	AddControllerYawInput(AxisValue);
+}
+
+void APlayerCharacter::Respawn()
+{
+	SetActorLocation(StartLocation);
 }

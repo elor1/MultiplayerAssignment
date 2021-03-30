@@ -33,12 +33,16 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	void Respawn();
+
 private:
 	UPROPERTY(EditAnywhere)
 	USpringArmComponent* SpringArm;
 
 	UPROPERTY(EditAnywhere)
 	UCameraComponent* Camera;
+
+	FVector StartLocation;
 
 	void MoveForwards(float AxisValue);
 	void Strafe(float AxisValue);
