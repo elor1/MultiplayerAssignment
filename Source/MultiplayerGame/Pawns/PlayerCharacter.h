@@ -32,7 +32,7 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
+	
 	void Respawn();
 
 private:
@@ -41,7 +41,7 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	UCameraComponent* Camera;
-
+	
 	FVector StartLocation;
 
 	void MoveForwards(float AxisValue);
