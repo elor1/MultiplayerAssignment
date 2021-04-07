@@ -7,6 +7,7 @@
 
 #include "GeneratedCodeHelpers.h"
 #include "Camera/CameraComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/GameModeBase.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -45,7 +46,10 @@ void APlayerCharacter::BeginPlay()
 void APlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	
+	FHitResult OutHit;
+	GetCharacterMovement()->SafeMoveUpdatedComponent(FVector(0.0f, 0.0f, 0.01f), GetActorRotation(), true, OutHit);
+	GetCharacterMovement()->SafeMoveUpdatedComponent(FVector(0.0f, 0.0f, -0.01f), GetActorRotation(), true, OutHit);
 }
 
 // Called to bind functionality to input
