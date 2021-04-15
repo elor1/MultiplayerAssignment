@@ -7,6 +7,7 @@
 
 #include "GeneratedCodeHelpers.h"
 #include "Camera/CameraComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/GameModeBase.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -45,7 +46,10 @@ void APlayerCharacter::BeginPlay()
 void APlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	
+	FHitResult OutHit;
+	GetCharacterMovement()->SafeMoveUpdatedComponent(FVector(0.0f, 0.0f, 0.01f), GetActorRotation(), true, OutHit);
+	GetCharacterMovement()->SafeMoveUpdatedComponent(FVector(0.0f, 0.0f, -0.01f), GetActorRotation(), true, OutHit);
 }
 
 // Called to bind functionality to input
@@ -58,6 +62,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	PlayerInputComponent->BindAxis(TEXT("LookUp"), this, &APlayerCharacter::LookUp);
 	PlayerInputComponent->BindAxis(TEXT("Turn"), this, &APlayerCharacter::Turn);
 	PlayerInputComponent->BindAction(TEXT("Jump"), EInputEvent::IE_Pressed, this, &ACharacter::Jump);
+	PlayerInputComponent->BindAction(TEXT("Dive"), EInputEvent::IE_Pressed, this, &APlayerCharacter::Dive);
 }
 
 void APlayerCharacter::MoveForwards(float AxisValue)
@@ -78,6 +83,16 @@ void APlayerCharacter::LookUp(float AxisValue)
 void APlayerCharacter::Turn(float AxisValue)
 {
 	AddControllerYawInput(AxisValue);
+}
+
+void APlayerCharacter::Dive()
+{
+	ServerDive();
+}
+
+void APlayerCharacter::ServerDive_Implementation()
+{
+	LaunchCharacter(GetActorForwardVector() * LaunchSpeed, false, false);
 }
 
 void APlayerCharacter::Respawn()
