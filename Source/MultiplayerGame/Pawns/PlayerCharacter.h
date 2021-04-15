@@ -41,6 +41,9 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	UCameraComponent* Camera;
+
+	UPROPERTY(EditAnywhere)
+	float LaunchSpeed = 1000;
 	
 	FVector StartLocation;
 
@@ -48,4 +51,8 @@ private:
 	void Strafe(float AxisValue);
 	void LookUp(float AxisValue);
 	void Turn(float AxisValue);
+	void Dive();
+
+	UFUNCTION(Server, Reliable)
+	void ServerDive();
 };

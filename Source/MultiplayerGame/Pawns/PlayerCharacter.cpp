@@ -62,6 +62,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	PlayerInputComponent->BindAxis(TEXT("LookUp"), this, &APlayerCharacter::LookUp);
 	PlayerInputComponent->BindAxis(TEXT("Turn"), this, &APlayerCharacter::Turn);
 	PlayerInputComponent->BindAction(TEXT("Jump"), EInputEvent::IE_Pressed, this, &ACharacter::Jump);
+	PlayerInputComponent->BindAction(TEXT("Dive"), EInputEvent::IE_Pressed, this, &APlayerCharacter::Dive);
 }
 
 void APlayerCharacter::MoveForwards(float AxisValue)
@@ -82,6 +83,16 @@ void APlayerCharacter::LookUp(float AxisValue)
 void APlayerCharacter::Turn(float AxisValue)
 {
 	AddControllerYawInput(AxisValue);
+}
+
+void APlayerCharacter::Dive()
+{
+	ServerDive();
+}
+
+void APlayerCharacter::ServerDive_Implementation()
+{
+	LaunchCharacter(GetActorForwardVector() * LaunchSpeed, false, false);
 }
 
 void APlayerCharacter::Respawn()
