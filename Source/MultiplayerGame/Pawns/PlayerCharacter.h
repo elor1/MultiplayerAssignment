@@ -35,6 +35,8 @@ public:
 	
 	void Respawn();
 
+	void SetNewRespawnPoint();
+
 private:
 	UPROPERTY(EditAnywhere)
 	USpringArmComponent* SpringArm;
@@ -44,6 +46,9 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	float LaunchSpeed = 1000;
+
+	UPROPERTY(EditAnywhere)
+	float MaxPushDistance = 100.0f;
 	
 	FVector StartLocation;
 
@@ -52,7 +57,15 @@ private:
 	void LookUp(float AxisValue);
 	void Turn(float AxisValue);
 	void Dive();
+	void Push();
+	void GetPushed(FVector Direction);
 
 	UFUNCTION(Server, Reliable)
 	void ServerDive();
+
+	UFUNCTION(Server, Reliable)
+	void ServerPush();
+
+	UFUNCTION(Server, Reliable)
+	void ServerGetPushed(FVector Direction);
 };

@@ -2,9 +2,6 @@
 
 
 #include "PlayerCharacter.h"
-
-
-
 #include "GeneratedCodeHelpers.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -63,6 +60,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	PlayerInputComponent->BindAxis(TEXT("Turn"), this, &APlayerCharacter::Turn);
 	PlayerInputComponent->BindAction(TEXT("Jump"), EInputEvent::IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction(TEXT("Dive"), EInputEvent::IE_Pressed, this, &APlayerCharacter::Dive);
+	PlayerInputComponent->BindAction(TEXT("Push"), EInputEvent::IE_Pressed, this, &APlayerCharacter::Push);
 }
 
 void APlayerCharacter::MoveForwards(float AxisValue)
@@ -90,6 +88,41 @@ void APlayerCharacter::Dive()
 	ServerDive();
 }
 
+void APlayerCharacter::Push()
+{
+	ServerPush();
+}
+
+void APlayerCharacter::GetPushed(FVector Direction)
+{
+	ServerGetPushed(Direction);
+}
+
+void APlayerCharacter::ServerGetPushed_Implementation(FVector Direction)
+{
+	LaunchCharacter(Direction * LaunchSpeed, false, false);
+}
+
+void APlayerCharacter::ServerPush_Implementation()
+{
+	FVector PlayerPosition = GetActorLocation();
+	FVector EndPoint = PlayerPosition + GetActorForwardVector() * MaxPushDistance;
+
+	FCollisionQueryParams Params;
+	Params.AddIgnoredActor(this);
+
+	FHitResult Hit;
+	bool bSuccess = GetWorld()->LineTraceSingleByChannel(Hit, PlayerPosition, EndPoint, ECollisionChannel::ECC_GameTraceChannel1, Params);
+	if (bSuccess)
+	{
+		APlayerCharacter* OtherPlayer = Cast<APlayerCharacter>(Hit.GetActor());
+		if (OtherPlayer)
+		{
+			OtherPlayer->GetPushed(GetActorForwardVector());
+		}
+	}
+}
+
 void APlayerCharacter::ServerDive_Implementation()
 {
 	LaunchCharacter(GetActorForwardVector() * LaunchSpeed, false, false);
@@ -98,4 +131,13 @@ void APlayerCharacter::ServerDive_Implementation()
 void APlayerCharacter::Respawn()
 {
 	SetActorLocation(StartLocation);
+}
+
+void APlayerCharacter::SetNewRespawnPoint()
+{
+	FVector PlayerPosition = GetActorLocation();
+	if (PlayerPosition.Y < StartLocation.Y)
+	{
+		StartLocation = PlayerPosition;
+	}
 }
