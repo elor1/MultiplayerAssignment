@@ -13,5 +13,7 @@ UCLASS()
 class MULTIPLAYERGAME_API AMultiplayerGameGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
-	
+
+public:
+	void PostLogin(APlayerController* NewPlayer) override;
 };
