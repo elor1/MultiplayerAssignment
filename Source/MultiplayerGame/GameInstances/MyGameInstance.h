@@ -16,6 +16,8 @@ class MULTIPLAYERGAME_API UMyGameInstance : public UGameInstance
 	GENERATED_BODY()
 
 public:
+	bool bGameStarted = false;
+	
 	UFUNCTION(Exec)
 	void Host();
 

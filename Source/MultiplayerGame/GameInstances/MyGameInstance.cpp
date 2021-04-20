@@ -27,6 +27,7 @@ void UMyGameInstance::Warp(const FString LevelName)
 	UWorld* World = GetWorld();
 	if (World)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("Warping"));
 		FString Destination = FString::Printf(TEXT("/Game/Maps/%s?listen"), *LevelName);
 		World->ServerTravel(Destination);
 	}

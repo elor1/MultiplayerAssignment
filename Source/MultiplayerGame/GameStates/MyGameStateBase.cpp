@@ -8,14 +8,15 @@
 
 void AMyGameStateBase::LogPlayerJoin()
 {
-	if (HasAuthority())
+	if (UMyGameInstance* Instance = Cast<UMyGameInstance>(GetGameInstance()))
 	{
-		NumPlayers++;
-
-		if (NumPlayers == PlayersToStart)
+		if (HasAuthority() && !Instance->bGameStarted)
 		{
-			if (UMyGameInstance* Instance = Cast<UMyGameInstance>(GetGameInstance()))
+			NumPlayers++;
+
+			if (NumPlayers == PlayersToStart)
 			{
+				Instance->bGameStarted = true;
 				Instance->Warp("Main");
 			}
 		}
