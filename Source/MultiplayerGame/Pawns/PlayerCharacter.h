@@ -37,7 +37,7 @@ public:
 
 	void SetNewRespawnPoint();
 
-	int FinishPlace = -1;
+	bool bHasFinished = false;
 	
 private:
 	UPROPERTY(EditAnywhere)

@@ -31,7 +31,7 @@ void AMyGameStateBase::LogPlayerFinished(APlayerCharacter* Player)
 		if (HasAuthority())
 		{
 			PlayersFinished++;
-			Player->FinishPlace = PlayersFinished;
+			Player->bHasFinished = true;
 			UE_LOG(LogTemp, Warning, TEXT("%i"), PlayersFinished);
 			
 			if (PlayersFinished == PlayersToStart)

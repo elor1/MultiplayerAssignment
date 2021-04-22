@@ -60,7 +60,7 @@ void AFinishZone::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 	{
 		if (APlayerCharacter* Player = Cast<APlayerCharacter>(OtherActor))
 		{
-			if (Player->FinishPlace <= 0)
+			if (!Player->bHasFinished)
 			{
 				UE_LOG(LogTemp, Warning, TEXT("Finish"));
 				AGameModeBase* GameMode = UGameplayStatics::GetGameMode(GetWorld());
