@@ -5,6 +5,7 @@
 
 #include "MultiplayerGame/GameInstances/MyGameInstance.h"
 #include "Net/UnrealNetwork.h"
+#include "MultiplayerGame/Pawns/PlayerCharacter.h"
 
 void AMyGameStateBase::LogPlayerJoin()
 {
@@ -23,9 +24,29 @@ void AMyGameStateBase::LogPlayerJoin()
 	}
 }
 
+void AMyGameStateBase::LogPlayerFinished(APlayerCharacter* Player)
+{
+	if (UMyGameInstance* Instance = Cast<UMyGameInstance>(GetGameInstance()))
+	{
+		if (HasAuthority())
+		{
+			PlayersFinished++;
+			Player->FinishPlace = PlayersFinished;
+			UE_LOG(LogTemp, Warning, TEXT("%i"), PlayersFinished);
+			
+			if (PlayersFinished == PlayersToStart)
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Game Over"));
+				Instance->Warp("EndLevel");
+			}
+		}
+	}
+}
+
 void AMyGameStateBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME(AMyGameStateBase, NumPlayers);
+	DOREPLIFETIME(AMyGameStateBase, PlayersFinished);
 }

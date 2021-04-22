@@ -6,6 +6,7 @@
 #include "GameFramework/GameStateBase.h"
 #include "MyGameStateBase.generated.h"
 
+class APlayerCharacter;
 /**
  * 
  */
@@ -19,8 +20,13 @@ public:
 	
 	void LogPlayerJoin();
 
+	void LogPlayerFinished(APlayerCharacter* Player);
+
 	UPROPERTY(BlueprintReadOnly, Replicated)
 	int NumPlayers = 0;
+
+	UPROPERTY(BlueprintReadOnly, Replicated)
+	int PlayersFinished = 0;
 
 private:
 	UPROPERTY(EditAnywhere)

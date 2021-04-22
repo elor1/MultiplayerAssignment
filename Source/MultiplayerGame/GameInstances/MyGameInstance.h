@@ -16,6 +16,7 @@ class MULTIPLAYERGAME_API UMyGameInstance : public UGameInstance
 	GENERATED_BODY()
 
 public:
+	UPROPERTY(BlueprintReadWrite)
 	bool bGameStarted = false;
 	
 	UFUNCTION(Exec)

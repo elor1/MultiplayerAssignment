@@ -37,6 +37,8 @@ public:
 
 	void SetNewRespawnPoint();
 
+	int FinishPlace = -1;
+	
 private:
 	UPROPERTY(EditAnywhere)
 	USpringArmComponent* SpringArm;

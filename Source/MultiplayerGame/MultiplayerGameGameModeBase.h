@@ -6,6 +6,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "MultiplayerGameGameModeBase.generated.h"
 
+class APlayerCharacter;
 /**
  * 
  */
@@ -16,4 +17,5 @@ class MULTIPLAYERGAME_API AMultiplayerGameGameModeBase : public AGameModeBase
 
 public:
 	void PostLogin(APlayerController* NewPlayer) override;
+	void PlayerFinished(APlayerCharacter* Player);
 };

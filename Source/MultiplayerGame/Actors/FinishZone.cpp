@@ -5,6 +5,9 @@
 #include "Components/BoxComponent.h"
 #include "Niagara/Public/NiagaraComponent.h"
 #include "Components/TextRenderComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "MultiplayerGame/MultiplayerGameGameModeBase.h"
+#include "MultiplayerGame/Pawns/PlayerCharacter.h"
 
 // Sets default values
 AFinishZone::AFinishZone()
@@ -55,14 +58,30 @@ void AFinishZone::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 {
 	if (HasAuthority())
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Finish"));
-		if (Particle1->IsPaused())
+		if (APlayerCharacter* Player = Cast<APlayerCharacter>(OtherActor))
 		{
-			Particle1->SetPaused(false);
-		}
-		if (Particle2->IsPaused())
-		{
-			Particle2->SetPaused(false);
+			if (Player->FinishPlace <= 0)
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Finish"));
+				AGameModeBase* GameMode = UGameplayStatics::GetGameMode(GetWorld());
+				if (GameMode)
+				{
+					AMultiplayerGameGameModeBase* ModeBase = Cast<AMultiplayerGameGameModeBase>(GameMode);
+					if (ModeBase)
+					{
+						ModeBase->PlayerFinished(Player);
+					}
+				}
+
+				if (Particle1->IsPaused())
+				{
+					Particle1->SetPaused(false);
+				}
+				if (Particle2->IsPaused())
+				{
+					Particle2->SetPaused(false);
+				}
+			}
 		}
 	}
 }
