@@ -31,7 +31,7 @@ void AMyGameStateBase::LogPlayerFinished(APlayerCharacter* Player)
 		if (HasAuthority())
 		{
 			PlayersFinished++;
-			Player->bHasFinished = true;
+			Player->CrossedFinish();
 			UE_LOG(LogTemp, Warning, TEXT("%i"), PlayersFinished);
 			
 			if (PlayersFinished == PlayersToStart)

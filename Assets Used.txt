@@ -1,0 +1,2 @@
+Player models & animations: Mixamo https://www.mixamo.com/
+Sound effects: FreeSound https://freesound.org/people/elijahdanie/sounds/487436/

@@ -7,6 +7,7 @@
 #include "Components/TextRenderComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "MultiplayerGame/MultiplayerGameGameModeBase.h"
+#include "MultiplayerGame/GameStates/MyGameStateBase.h"
 #include "MultiplayerGame/Pawns/PlayerCharacter.h"
 
 // Sets default values
@@ -27,15 +28,15 @@ AFinishZone::AFinishZone()
 
 	//Set up particle systems
 	Particle1 = CreateDefaultSubobject<UNiagaraComponent>(TEXT("Particle 1"));
-	Particle1->SetPaused(true);
 	Particle2 = CreateDefaultSubobject<UNiagaraComponent>(TEXT("Particle 2"));
-	Particle1->SetPaused(false);
 
 	//Set up text
 	Text = CreateDefaultSubobject<UTextRenderComponent>(TEXT("Text"));
 	Text->SetupAttachment(Mesh);
 	Text->SetText(FText::FromString(TEXT("FINISH")));
 	Text->SetRelativeRotation(FRotator(0.0f, 90.0f, 0.0f));
+
+	bReplicates = true;
 }
 
 // Called when the game starts or when spawned
@@ -73,16 +74,19 @@ void AFinishZone::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 					}
 				}
 
-				if (Particle1->IsPaused())
+				if (!bParticlesActivated)
 				{
-					Particle1->SetPaused(false);
-				}
-				if (Particle2->IsPaused())
-				{
-					Particle2->SetPaused(false);
+					StartParticles();
 				}
 			}
 		}
 	}
+}
+
+void AFinishZone::StartParticles_Implementation()
+{
+	bParticlesActivated = true;
+	Particle1->Activate();
+	Particle2->Activate();
 }
 
