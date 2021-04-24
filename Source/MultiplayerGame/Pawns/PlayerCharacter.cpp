@@ -98,6 +98,11 @@ void APlayerCharacter::GetPushed(FVector Direction)
 	ServerGetPushed(Direction);
 }
 
+void APlayerCharacter::ClientPlayWinSound_Implementation()
+{
+	UGameplayStatics::PlaySoundAtLocation(GetWorld(), WinSound, GetActorLocation());
+}
+
 void APlayerCharacter::ServerGetPushed_Implementation(FVector Direction)
 {
 	LaunchCharacter(Direction * LaunchSpeed, false, false);
@@ -140,4 +145,10 @@ void APlayerCharacter::SetNewRespawnPoint()
 	{
 		StartLocation = PlayerPosition;
 	}
+}
+
+void APlayerCharacter::CrossedFinish()
+{
+	bHasFinished = true;
+	ClientPlayWinSound();
 }

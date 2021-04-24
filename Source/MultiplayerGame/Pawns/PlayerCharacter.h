@@ -37,6 +37,8 @@ public:
 
 	void SetNewRespawnPoint();
 
+	void CrossedFinish();
+	
 	bool bHasFinished = false;
 	
 private:
@@ -51,6 +53,9 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	float MaxPushDistance = 100.0f;
+
+	UPROPERTY(EditAnywhere)
+	USoundBase* WinSound;
 	
 	FVector StartLocation;
 
@@ -70,4 +75,7 @@ private:
 
 	UFUNCTION(Server, Reliable)
 	void ServerGetPushed(FVector Direction);
+
+	UFUNCTION(Client, Reliable)
+	void ClientPlayWinSound();
 };
