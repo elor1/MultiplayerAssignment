@@ -34,7 +34,7 @@ void AMyGameStateBase::LogPlayerFinished(APlayerCharacter* Player)
 			Player->CrossedFinish();
 			UE_LOG(LogTemp, Warning, TEXT("%i"), PlayersFinished);
 			
-			if (PlayersFinished == PlayersToStart)
+			if (PlayersFinished == PlayersToStart - 1)
 			{
 				UE_LOG(LogTemp, Warning, TEXT("Game Over"));
 				Instance->Warp("EndLevel");
