@@ -32,6 +32,7 @@ protected:
 	void BeginPlay() override;
 
 private:
+	UPROPERTY(Replicated)
 	ESlideState SlideState = Pause;
 
 	UPROPERTY(Replicated)

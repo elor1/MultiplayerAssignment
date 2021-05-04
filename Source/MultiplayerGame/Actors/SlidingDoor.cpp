@@ -103,4 +103,5 @@ void ASlidingDoor::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLife
 	DOREPLIFETIME_CONDITION(ASlidingDoor, Speed, COND_InitialOnly);
 	DOREPLIFETIME_CONDITION(ASlidingDoor, MaxHeight, COND_InitialOnly);
 	DOREPLIFETIME_CONDITION(ASlidingDoor, CurrentHeight, COND_InitialOnly);
+	DOREPLIFETIME_CONDITION(ASlidingDoor, SlideState, COND_InitialOnly);
 }
