@@ -32,17 +32,17 @@ void ASlidingDoor::BeginPlay()
 
 void ASlidingDoor::SetStateDown_Implementation()
 {
-	SlideState = Down;
+	SlideState = ESlideState::Down;
 }
 
 void ASlidingDoor::SetStateUp_Implementation()
 {
-	SlideState = Up;
+	SlideState = ESlideState::Up;
 }
 
 void ASlidingDoor::SetStatePaused_Implementation()
 {
-	SlideState = Pause;
+	SlideState = ESlideState::Pause;
 }
 
 // Called every frame
@@ -50,12 +50,12 @@ void ASlidingDoor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (SlideState == Down)
+	if (SlideState == ESlideState::Down)
 	{
 		SetActorLocation(FVector(GetActorLocation().X, GetActorLocation().Y, FMath::Max(GetActorLocation().Z - Speed * DeltaTime, MinHeight)));
 		CurrentHeight -= Speed * DeltaTime;
 	}
-	else if (SlideState == Up)
+	else if (SlideState == ESlideState::Up)
 	{
 		SetActorLocation(FVector(GetActorLocation().X, GetActorLocation().Y, FMath::Min(GetActorLocation().Z + Speed * DeltaTime, MaxHeight)));
 		CurrentHeight += Speed * DeltaTime;
@@ -65,7 +65,7 @@ void ASlidingDoor::Tick(float DeltaTime)
 	{
 		if (CurrentHeight <= MinHeight)
 		{
-			if (SlideState == Pause)
+			if (SlideState == ESlideState::Pause)
 			{
 				if (!GetWorldTimerManager().IsTimerActive(PauseTimer))
 				{
@@ -80,7 +80,7 @@ void ASlidingDoor::Tick(float DeltaTime)
 		}
 		else if (CurrentHeight >= MaxHeight)
 		{
-			if (SlideState == Pause)
+			if (SlideState == ESlideState::Pause)
 			{
 				if (!GetWorldTimerManager().IsTimerActive(PauseTimer))
 				{

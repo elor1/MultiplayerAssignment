@@ -6,7 +6,8 @@
 #include "Engine/StaticMeshActor.h"
 #include "SlidingDoor.generated.h"
 
-enum ESlideState : uint8
+UENUM()
+enum class ESlideState : uint8
 {
 	Up,
 	Down,
@@ -33,7 +34,7 @@ protected:
 
 private:
 	UPROPERTY(Replicated)
-	ESlideState SlideState = Pause;
+	ESlideState SlideState = ESlideState::Pause;
 
 	UPROPERTY(Replicated)
 	float MaxHeight;
